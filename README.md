@@ -3,7 +3,7 @@ Backend example
 
 ## Creating structure
 
-### branch: step-01-structure
+### branch: [step-01-structure](https://github.com/geomarb/backend-example/tree/step-01-structure)
 
 ```console
 git clone git@github.com:geomarb/backend-example.git
@@ -18,7 +18,7 @@ git push --set-upstream origin step-01-structure
 
 ## Adding NPM packages
 
-### branch: step-02-adding-npm-packages
+### branch: [step-02-adding-npm-packages](https://github.com/geomarb/backend-example/tree/step-02-adding-npm-packages)
 
 ```console
 git checkout -b step-02-adding-npm-packages
@@ -32,7 +32,7 @@ git push --set-upstream origin step-02-adding-npm-packages
 
 ## Creating server
 
-### branch: step-03-creating-server
+### branch: [step-03-creating-server](https://github.com/geomarb/backend-example/tree/step-03-creating-server)
 
 #### Changed files
 
