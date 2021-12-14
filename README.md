@@ -3,7 +3,9 @@
 This project was created for teaching purposes. It will be implemented from zero, step by step. The steps are stored in the branches. 
 ## Creating structure
 
-branch: [step-01-structure](https://github.com/geomarb/backend-example/tree/step-01-structure)
+### branch: [step-01-structure](https://github.com/geomarb/backend-example/tree/step-01-structure)
+
+- creating the basic folder structure and files via terminal/console
 
 ```console
 git clone git@github.com:geomarb/backend-example.git
