@@ -33,6 +33,8 @@ git push --set-upstream origin step-01-structure
 
 git checkout -b step-02-adding-npm-packages
 
+npm init -y
+    
 npm install express cors cookie-parser dotenv mysql2 joi
 
 npm install nodemon --save-dev
