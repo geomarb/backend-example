@@ -22,7 +22,7 @@ git push --set-upstream origin step-01-structure
 
 ### branch: step-02-adding-npm-packages
 
-- adding the main packages to create the very basic server
+- init npm and add the main packages to create a very basic server
 
 ```console
 git checkout -b step-02-adding-npm-packages
