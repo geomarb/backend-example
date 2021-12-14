@@ -3,9 +3,10 @@ Backend example
 
 ## Creating structure
 
-branch: step-01-structure
+### branch: step-01-structure
 
 ```console
+
 git clone git@github.com:geomarb/backend-example.git
 
 cd backend-example
@@ -21,5 +22,25 @@ git add .
 git commit -m "create structure"
 
 git push --set-upstream origin step-01-structure
+
+```
+
+## Adding NPM packages
+
+### branch: step-02-adding-npm-packages
+
+```console
+
+git checkout -b step-02-adding-npm-packages
+
+npm install express cors cookie-parser dotenv mysql2 joi
+
+npm install nodemon --save-dev
+
+git add .
+
+git commit -m "add npm packages"
+
+git push --set-upstream origin step-02-adding-npm-packages
 
 ```
