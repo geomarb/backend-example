@@ -20,10 +20,6 @@ git add .
 
 git commit -m "create structure"
 
-git push origin step-01-structure 
+git push --set-upstream origin step-01-structure
 
 ```
-
-## Creating structure
-
-branch: step-01-structure
