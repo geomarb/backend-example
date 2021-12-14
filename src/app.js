@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const router = require("./routes");
 
 // create an instance of the express in the app
 const app = express();
@@ -15,5 +16,7 @@ app.use(cors());
 // in production you MUST add some configurations here for security reasons
 // the cookie will be used later for the auth process
 app.use(cookieParser());
+
+app.use("/api", router);
 
 module.exports = app;
