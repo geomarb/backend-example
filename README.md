@@ -139,37 +139,37 @@ git push --set-upstream origin step-03-creating-server
 
 ##### [src/models/user.model.js](src/models/user.model.js)
 
-- let's start with a fake and hard coded users array and add the getUsers method 
+- create a fake hard coded users data (this will be changed later to get data from the database)
+- create the `getUsers` method which will return all users 
 
 ##### [src/controllers/user.controller.js](src/controllers/user.controller.js)
 
 - import `userModel` from `user.model.js`
-- treat the request and send back all users from `userModel.getAll`
-
-##### [src/controllers/index.js](src/controllers/index.js)
-
-- import and export `user.controller.js` as `UserController`
+- create a method called `getUsers` which will receive the request and respond with all users from `userModel.getUsers()`
 
 ##### [src/routes/user.routes.js](src/routes/user.routes.js)
 
-- create the `router`, import `UserController`
-- create `get /` which will call `UserController.getUsers`
+- create the `router`, import `user.controller`
+- create `get /` route which calls `userController.getUsers`
 - export the `router`
 
 ##### [src/routes/index.js](src/controllers/index.js)
 
 - create the `router`, import `./user.routes.js` as `userRoutes`
 - use `userRoutes` in the router under `/users` endpoint
-- export router
+- export `router`
 
 ##### [src/app.js](src/app.js)
 
 - import `router` from `./routes`
 - use it as a middleware under `/api` route
 
-#####
+#### Run the server
 
-Once above steps are done, run the server, fix all error, and test the route [http://localhost:4000/api/users](http://localhost:4000/api/users). Make sure that all users are being showed.
+- run the server with `npm run dev`
+- fix all errors
+- go to the route [http://localhost:4000/api/users](http://localhost:4000/api/users).
+- check all users were returned
 
 #### git commands
 
