@@ -1,7 +1,7 @@
 # Backend example
 
 This project was created for teaching purposes. It will be implemented from zero, step by step. The steps are stored in the branches. 
-## Creating structure
+## Step 1 - Create structure
 
 ### branch: [step-01-structure](https://github.com/geomarb/backend-example/tree/step-01-structure)
 
@@ -76,7 +76,7 @@ git commit -m "create structure"
 git push --set-upstream origin step-01-structure
 ```
 
-## Adding NPM packages
+## Step 2 - Add NPM packages
 
 ### branch: [step-02-adding-npm-packages](https://github.com/geomarb/backend-example/tree/step-02-adding-npm-packages)
 
@@ -94,7 +94,7 @@ git add .
 git commit -m "add npm packages"
 git push --set-upstream origin step-02-adding-npm-packages
 ```
-## Creating the server
+## Step 3 - Create the server
 
 ### branch: [step-03-creating-server](https://github.com/geomarb/backend-example/tree/step-03-creating-server)
 
@@ -136,7 +136,7 @@ git commit -m "create server"
 git push --set-upstream origin step-03-creating-server
 ```
 
-## Creating GET user route
+## Step 4 - Create GET /user Route
 
 ### branch: [step-04-get-user-route](https://github.com/geomarb/backend-example/tree/step-04-get-user-route)
 
