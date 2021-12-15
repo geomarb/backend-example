@@ -1,7 +1,7 @@
-const { UserModel } = require("../models");
+const userModel = require("../models/user.model");
 
 const getUsers = (req, res) => {
-  const users = UserModel.getUsers();
+  const users = userModel.getUsers();
   res.send(users);
 };
 
