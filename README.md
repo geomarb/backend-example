@@ -7,44 +7,44 @@ This project was created for teaching purposes. It will be implemented from zero
 
 - creating the basic folder structure and files via terminal/console
 
-## Function Tree
+## Project Structure Tree
 
 ```console
-* / (root of the project)
+. / (root of the project)
 |
-+--* /src
-| |
-| +--* /config 
-| |  |
-| |  +--* db.js
-| |
-| +--* /controllers 
-| |  |
-| |  +--* auth.controller.js 
-| |  |
-| |  +--* user.controller.js 
-| |
-| +--* */middlewares 
-| |  |
-| |  +--* auth.middleware.js 
-| |  |
-| |  +--* error-handler.middleware.js 
-| |
-| +--* /models 
-| |  |
-| |  +--* user.model.js 
-| |
-| +--* /routes
-| |  |
-| |  +--* index.js 
-| |  |
-| |  +--* auth.routes.js 
-| |  |
-| |  +--* user.routes.js 
-| |
-| +--* app.js
-| |
-| +--* index.js
++--. /src
+|  |
+|  +--. /config 
+|  |  |
+|  |  +--. db.js
+|  |
+|  +--. /controllers 
+|  |  |
+|  |  +--. auth.controller.js 
+|   |  |
+|  |  +--. user.controller.js 
+|  |
+|  +--. /middlewares 
+|  |  |
+|  |  +--. auth.middleware.js 
+|  |  |
+|  |  +--. error-handler.middleware.js 
+|  |
+|  +--. /models 
+|  |  |
+|  |  +--. user.model.js 
+|  |
+|  +--. /routes
+|  |  |
+|  |  +--. index.js 
+|  |  |
+|  |  +--. auth.routes.js 
+|  |  |
+|  |  +--. user.routes.js 
+|  |
+|  +--. app.js
+|  |
+|  +--. index.js
 |
 +--* .env
 
