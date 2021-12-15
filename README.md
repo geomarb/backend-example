@@ -142,10 +142,18 @@ git push --set-upstream origin step-03-creating-server
 - create a fake hard coded users data (this will be changed later to get data from the database)
 - create the `getUsers` method which will return all users 
 
+##### [src/models/index.js](src/models/index.js)
+
+- import `user.model.js` and export it as `userModel` 
+
 ##### [src/controllers/user.controller.js](src/controllers/user.controller.js)
 
-- import `userModel` from `user.model.js`
+- import `userModel` from `models`
 - create a method called `getUsers` which will receive the request and respond with all users from `userModel.getUsers()`
+
+##### [src/controllers/index.js](src/models/index.js)
+
+- import `user.controller.js` and export it as `userController` 
 
 ##### [src/routes/user.routes.js](src/routes/user.routes.js)
 
