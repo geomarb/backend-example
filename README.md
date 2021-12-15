@@ -10,43 +10,43 @@ This project was created for teaching purposes. It will be implemented from zero
 ## Project Structure Tree
 
 ```console
-. / (root of the project)
+ / (root of the project)
 |
-+--. /src
++-- /src
 |  |
-|  +--. /config 
+|  +-- /config 
 |  |  |
-|  |  +--. db.js
+|  |  +-- db.js
 |  |
-|  +--. /controllers 
+|  +-- /controllers 
 |  |  |
-|  |  +--. auth.controller.js 
-|   |  |
-|  |  +--. user.controller.js 
+|  |  +-- auth.controller.js 
+|  |  |
+|  |  +-- user.controller.js 
 |  |
-|  +--. /middlewares 
+|  +-- /middlewares 
 |  |  |
-|  |  +--. auth.middleware.js 
+|  |  +-- auth.middleware.js 
 |  |  |
-|  |  +--. error-handler.middleware.js 
+|  |  +-- error-handler.middleware.js 
 |  |
-|  +--. /models 
+|  +-- /models 
 |  |  |
-|  |  +--. user.model.js 
+|  |  +-- user.model.js 
 |  |
-|  +--. /routes
+|  +-- /routes
 |  |  |
-|  |  +--. index.js 
+|  |  +-- index.js 
 |  |  |
-|  |  +--. auth.routes.js 
+|  |  +-- auth.routes.js 
 |  |  |
-|  |  +--. user.routes.js 
+|  |  +-- user.routes.js 
 |  |
-|  +--. app.js
+|  +-- app.js
 |  |
-|  +--. index.js
+|  +-- index.js
 |
-+--* .env
++-- .env
 
 ```console
 git clone git@github.com:geomarb/backend-example.git
