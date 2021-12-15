@@ -58,7 +58,7 @@ This project was created for teaching purposes. It will be implemented from zero
 - create a new branch and checkout it in git
 - stage all changes
 - commit all changes
-- push the committed changes to your remote repository in GitHub
+- push the committed changes to the remote repository in GitHub
 
 ```console
 git clone git@github.com:geomarb/backend-example.git
@@ -78,7 +78,7 @@ git push --set-upstream origin step-01-structure
 
 ## Adding NPM packages
 
-### branch: step-02-adding-npm-packages
+### branch: [step-02-adding-npm-packages](https://github.com/geomarb/backend-example/tree/step-02-adding-npm-packages)
 
 - create a new branch in git
 - init npm to create the package.json file
