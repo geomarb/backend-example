@@ -101,11 +101,8 @@ git push --set-upstream origin step-02-adding-npm-packages
 #### Changed files
 
 ##### ` .env `
-- Create ` .env ` file on root folder (terminal/console)
-```console
-touch .env
-```
-- edit the `.env` file to add `PORT` variable
+
+- edit the `.env` file to add the `PORT` variable
 ```console
 PORT=4000
 ```
