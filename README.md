@@ -20,17 +20,23 @@ This project was created for teaching purposes. It will be implemented from zero
 |  |
 |  +-- controllers/ 
 |  |  |
+|  |  +-- index.js 
+|  |  |
 |  |  +-- auth.controller.js 
 |  |  |
 |  |  +-- user.controller.js 
 |  |
 |  +-- middlewares/ 
 |  |  |
+|  |  +-- index.js 
+|  |  |
 |  |  +-- auth.middleware.js 
 |  |  |
 |  |  +-- error-handler.middleware.js 
 |  |
 |  +-- models/ 
+|  |  |
+|  |  +-- index.js 
 |  |  |
 |  |  +-- user.model.js 
 |  |
@@ -66,9 +72,9 @@ cd backend-example
 mkdir -p src/config src/controllers src/middlewares src/models src/routes
 touch .env
 touch src/index.js src/app.js
-touch src/controllers/user.controller.js src/controllers/auth.controller.js
-touch src/middlewares/auth.middleware.js src/middlewares/error-handler.middleware.js
-touch src/models/user.model.js
+touch src/controllers/index.js src/controllers/user.controller.js src/controllers/auth.controller.js
+touch src/middlewares/index.js src/middlewares/auth.middleware.js src/middlewares/error-handler.middleware.js
+touch src/models/index.js src/models/user.model.js
 touch src/routes/index.js src/routes/user.routes.js src/routes/auth.routes.js
 git checkout -b step-01-structure
 git add .
