@@ -7,17 +7,62 @@ This project was created for teaching purposes. It will be implemented from zero
 
 - creating the basic folder structure and files via terminal/console
 
+## Function Tree
+
+```console
+* / (root of the project)
+|
++--* /src
+| |
+| +--* /config 
+| |  |
+| |  +--* db.js
+| |
+| +--* /controllers 
+| |  |
+| |  +--* auth.controller.js 
+| |  |
+| |  +--* user.controller.js 
+| |
+| +--* */middlewares 
+| |  |
+| |  +--* auth.middleware.js 
+| |  |
+| |  +--* error-handler.middleware.js 
+| |
+| +--* /models 
+| |  |
+| |  +--* user.model.js 
+| |
+| +--* /routes
+| |  |
+| |  +--* index.js 
+| |  |
+| |  +--* auth.routes.js 
+| |  |
+| |  +--* user.routes.js 
+| |
+| +--* app.js
+| |
+| +--* index.js
+|
++--* .env
+
 ```console
 git clone git@github.com:geomarb/backend-example.git
 cd backend-example
 git chekout -b step-01-structure
-mkdir -p src/controllers src/models src/routes src/middlewares src/config
-touch src/index.js src/app.js src/models/index.js src/models/user.model.js src/routes/index.js src/routes/user.routes.js src/routes/auth.routes.js src/routes/index.routes.js src/controllers/index.js src/controllers/user.controller.js src/controllers/auth.controller.js src/middlewares/auth.middleware.js src/middlewares/error-handler.middleware.js
+mkdir -p src/config src/controllers src/middlewares src/models src/routes
+touch .env
+touch src/index.js src/app.js
+touch src/controllers/user.controller.js src/controllers/auth.controller.js
+touch src/middlewares/auth.middleware.js src/middlewares/error-handler.middleware.js
+touch src/models/user.model.js
+touch src/routes/index.js src/routes/user.routes.js src/routes/auth.routes.js
 git add .
 git commit -m "create structure"
 git push --set-upstream origin step-01-structure
 ```
-
 ## Adding NPM packages
 
 ### branch: step-02-adding-npm-packages
@@ -84,13 +129,10 @@ git push --set-upstream origin step-03-creating-server
 
 - let's start with a fake and hard coded users array and add the getUsers method 
 
-##### [src/models/index.js](src/models/index.js)
-
-- import and export `user.model.js` as `UserModel`
 ##### [src/controllers/user.controller.js](src/controllers/user.controller.js)
 
-- import `UserModel`
-- treat the request and send back all users from `UserModel.getUsers`
+- import `userModel` from `user.model.js`
+- treat the request and send back all users from `userModel.getAll`
 
 ##### [src/controllers/index.js](src/controllers/index.js)
 
