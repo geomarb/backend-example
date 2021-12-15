@@ -12,29 +12,29 @@ This project was created for teaching purposes. It will be implemented from zero
 ```console
  / (root of the project)
 |
-+-- /src
++-- src/
 |  |
-|  +-- /config 
+|  +-- config/ 
 |  |  |
 |  |  +-- db.js
 |  |
-|  +-- /controllers 
+|  +-- controllers/ 
 |  |  |
 |  |  +-- auth.controller.js 
 |  |  |
 |  |  +-- user.controller.js 
 |  |
-|  +-- /middlewares 
+|  +-- middlewares/ 
 |  |  |
 |  |  +-- auth.middleware.js 
 |  |  |
 |  |  +-- error-handler.middleware.js 
 |  |
-|  +-- /models 
+|  +-- models/ 
 |  |  |
 |  |  +-- user.model.js 
 |  |
-|  +-- /routes
+|  +-- routes/
 |  |  |
 |  |  +-- index.js 
 |  |  |
