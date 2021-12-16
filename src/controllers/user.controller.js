@@ -1,8 +1,28 @@
 const { userModel } = require("../models");
 
-const getUsers = (req, res) => {
-  const users = userModel.getUsers();
-  res.send(users);
+exports.getMany = (_req, res) => {
+  try {
+    const users = userModel.findMany();
+    res.send(users);
+  } catch (error) {
+    next(error);
+  }
 };
 
-module.exports = { getUsers };
+exports.getOne = (req, res) => {
+  try {
+    const user = userModel.findById(req.params.id);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.update = (req, res) => {
+  try {
+    const users = userModel.update(req.params.id, req.body);
+    res.send(users);
+  } catch (error) {
+    next(error);
+  }
+};
