@@ -1,0 +1,7 @@
+@baseUrl = http://localhost:4000/api/users
+GET {{baseUrl}}
+
+###
+
+GET {{baseUrl}}/1
+

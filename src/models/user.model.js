@@ -1,5 +1,3 @@
-const { InvalidDataError } = require("../error-types");
-
 let lastUserId = 3;
 const users = [
   { id: 1, email: "maria@mail.com", password: "1234", role: "adm" },
@@ -9,28 +7,20 @@ const users = [
 
 exports.findMany = () => users;
 
-exports.findById = (id) => users.filter((user) => user.id === id);
+const findById = (id) => {
+  const index = users.findIndex((user) => user.id === id);
 
-const findByEmail = (email) => users.filter((user) => user.email === email);
+  if (index < 0) return null;
 
-exports.findByEmail = findByEmail;
+  return { ...users[index], index };
+};
 
-exports.create = ({ name, email, password, role = "user" }) => {
-  const requiredFields = [];
+exports.findById = findById;
 
-  if (!name) requiredFields.push("name");
+exports.findByEmail = (email) => users.filter((user) => user.email === email);
 
-  if (!email) requiredFields.push("email");
-
-  if (!password) requiredFields.push("password");
-
-  if (requiredFields.length > 1) {
-    throw new InvalidDataError(
-      `It is mandatory to inform: ${requiredfields.join(", ")}`
-    );
-  }
-
-  const newUser = { id: ++lastUserId, name, email, password, role };
+exports.create = (user) => {
+  const newUser = { id: ++lastUserId, ...user };
 
   users.push(newUser);
 
@@ -39,38 +29,25 @@ exports.create = ({ name, email, password, role = "user" }) => {
   return newUser;
 };
 
-exports.update = (id, { name, email, role }) => {
-  const userIndex = users.findIndex((user) => user.id === id);
+exports.update = (id, attributes, user) => {
+  const { name, email, role } = attributes;
 
-  if (userIndex === -1) throw new Error("User not found");
+  const { index, ...userFound } = user ? user : findById(id);
 
-  if (
-    users[userIndex].email === email &&
-    users[userIndex].name === name &&
-    users[userIndex].role === role
-  ) {
-    throw new Error("Nothing to update");
-  }
+  if (name && name !== userFound.name) users[index].name = name;
 
-  if (name && name !== users[userIndex].name) users[userIndex].name = name;
+  if (email && email !== userFound.email) users[index].email = email;
 
-  if (email && email !== users[userIndex].email) users[userIndex].email = email;
+  if (role && role !== userFound.role) users[index].role = role;
 
-  if (role && role !== users[userIndex].role) users[userIndex].role = role;
-
-  return user;
+  return users[index];
 };
 
-exports.delete = (id) => {
-  const userIndex = users.findIndex((user) => users[userIndex].id === id);
+exports.delete = (id, user) => {
+  // it will not send the password back
+  const { index, password, ...deletedUser } = user ? user : findById(id);
 
-  if (userIndex === -1) throw new Error("User not found");
-
-  const deletedUser = users[user];
-
-  users.splice(userIndex, 1);
-
-  delete deletedUser.password;
+  users.splice(index, 1);
 
   return deletedUser;
 };

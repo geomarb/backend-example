@@ -7,9 +7,7 @@ module.exports = (err, _req, res, next) => {
 
   const error = err instanceof CustomError ? err : new InternalError();
 
-  // stack is being destructured here just to do not be included in the rest
-  // in this way when the stack is part of the error it will not be sent to frontend
-  const { status, stack, ...rest } = error;
+  const { message, status, detail } = error;
 
-  res.status(status).json(rest);
+  res.status(status).json({ message, ...detail });
 };

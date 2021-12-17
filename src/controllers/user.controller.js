@@ -1,28 +1,58 @@
-const { userModel } = require("../models");
+const { userService } = require("../services");
 
-exports.getMany = (_req, res) => {
+exports.get = (_req, res, next) => {
   try {
-    const users = userModel.findMany();
+    const users = userService.get();
     res.send(users);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
-exports.getOne = (req, res) => {
+exports.getOne = (req, res, next) => {
   try {
-    const user = userModel.findById(req.params.id);
+    const user = userService.getById(req.params.id);
     res.send(user);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
-exports.update = (req, res) => {
+exports.create = (req, res, next) => {
   try {
-    const users = userModel.update(req.params.id, req.body);
+    const newUser = userService.create(req.body);
+    res.send(newUser);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.update = (req, res, next) => {
+  try {
+    const updatedUser = userService.update(req.params.id, req.body);
+    res.send(updatedUser);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.delete = (req, res, next) => {
+  try {
+    const users = userService.delete(req.params.id, req.body);
     res.send(users);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.changePassword = (req, res, next) => {
+  try {
+    const updatedUser = userService.changePassword(
+      req.params.id,
+      req.body.password
+    );
+    res.send(updatedUser);
+  } catch (err) {
+    next(err);
   }
 };

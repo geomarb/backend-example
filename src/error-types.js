@@ -13,14 +13,14 @@ class InternalError extends CustomError {
 class RecordNotFoundError extends CustomError {
   constructor(resource, query) {
     super("Record not found", 404);
-    this.resource = resource;
-    this.query = query;
+    this.detail = { resource, query };
   }
 }
 
 class InvalidDataError extends CustomError {
-  constructor() {
+  constructor(resource, data) {
     super("Invalid data", 422);
+    this.detail = { resource, data };
   }
 }
 

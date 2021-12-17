@@ -21,8 +21,8 @@
     "type": "git",
     "url": "git+https://github.com/geomarb/backend-example.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["backend", "api", "node", "express", "auth", "role", "login"],
+  "author": "Geomar Bastiani",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/geomarb/backend-example/issues"

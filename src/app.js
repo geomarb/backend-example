@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const router = require("./routes");
+const { errorHandlingMiddleware } = require("./middlewares");
 
 // create an instance of the express in the app
 const app = express();
@@ -18,5 +19,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/api", router);
+
+app.use(errorHandlingMiddleware);
 
 module.exports = app;

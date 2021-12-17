@@ -8,7 +8,13 @@ This project was created for teaching purposes. It will be implemented from zero
 
 - creating the basic folder structure and files via terminal/console
 
-## Project Structure Tree
+### Flow of a HTTP Request / Response
+
+- REQUEST: client > app > middlewares > routes > controllers > services > models
+- RESPONSE (success): models > services > controller > client
+- RESPONSE (with error): models > services > controller > error-handling-middleware > client
+
+### Project Structure Tree
 
 ```console
  / (root of the project)
@@ -43,6 +49,14 @@ This project was created for teaching purposes. It will be implemented from zero
 |  |  |
 |  |  +-- user.routes.js
 |  |
+|  +-- services/
+|  |  |
+|  |  +-- index.js
+|  |  |
+|  |  +-- auth.service.js
+|  |  |
+|  |  +-- user.service.js
+|  |
 |  +-- app.js
 |  |
 |  +-- index.js
@@ -64,13 +78,14 @@ This project was created for teaching purposes. It will be implemented from zero
 ```console
 git clone git@github.com:geomarb/backend-example.git
 cd backend-example
-mkdir -p src/config src/controllers src/middlewares src/models src/routes
+mkdir -p src/config src/controllers src/middlewares src/models src/routes src/services
 touch .env
 touch src/index.js src/app.js
 touch src/controllers/user.controller.js src/controllers/auth.controller.js
 touch src/middlewares/auth.middleware.js src/middlewares/error-handler.middleware.js
 touch src/models/user.model.js
 touch src/routes/index.js src/routes/user.routes.js src/routes/auth.routes.js
+touch src/services/index.js src/services/user.service.js src/services/auth.service.js
 git checkout -b step-01-structure
 git add .
 git commit -m "create structure"
@@ -83,14 +98,29 @@ git push --set-upstream origin step-01-structure
 
 - create a new branch in git
 - init npm to create the package.json file
-- add [express](https://www.npmjs.com/package/express) [cors](https://www.npmjs.com/package/cors) [cookie-parser](https://www.npmjs.com/package/cookie-parser) [dotenv](https://www.npmjs.com/package/dotenv) [mysql2](https://www.npmjs.com/package/mysql2) [joi](https://www.npmjs.com/package/joi) packages to create a very basic server
 - stage, commit and push the changes to the remote repository in GitHub
 
+### NPM Packages
+
+- [express](https://www.npmjs.com/package/express) 
+- [cors](https://www.npmjs.com/package/cors) 
+- [cookie-parser](https://www.npmjs.com/package/cookie-parser) 
+- [dotenv](https://www.npmjs.com/package/dotenv) 
+- [mysql2](https://www.npmjs.com/package/mysql2) 
+- [joi](https://www.npmjs.com/package/joi) 
+- [nodemon](https://www.npmjs.com/package/nodemon) 
+
+#### npm commands
+
 ```console
-git checkout -b step-02-adding-npm-packages
 npm init -y
 npm install express cors cookie-parser dotenv mysql2 joi
 npm install nodemon --save-dev
+```
+#### git commands
+
+```console
+git checkout -b step-02-adding-npm-packages
 git add .
 git commit -m "add npm packages"
 git push --set-upstream origin step-02-adding-npm-packages
@@ -100,7 +130,7 @@ git push --set-upstream origin step-02-adding-npm-packages
 
 ### branch: [step-03-creating-server](https://github.com/geomarb/backend-example/tree/step-03-creating-server)
 
-#### Changed files
+#### Change log
 
 ##### `.env`
 
@@ -154,11 +184,11 @@ git push --set-upstream origin step-03-creating-server
 ##### [src/models/user.model.js](src/models/user.model.js)
 
 - create a fake hard coded users data (this will be changed later to get data from the database)
-- create the `getUsers` method which will return all users
-- create the `getUserById` method which will return one user by the id
-- create the `createUser` method which will create a new user and return the user with the id
-- create the `updateUser` method which will update the name and/or email of a user and return the updated user
-- create the `deleteUser` method which will remove a user by the id and return the deleted user
+- create the `findMany` method which will return all users
+- create the `findById` method which will return one user by the id
+- create the `create` method which will create a new user and return the user with the id
+- create the `update` method which will update the name and/or email of a user and return the updated user
+- create the `delete` method which will remove a user by the id and return the deleted user
 - create the `login` method which will check if the email exists and if the password id valid then the user or throw an error
 
 ##### [src/models/index.js](src/models/index.js)
@@ -200,7 +230,7 @@ git push --set-upstream origin step-03-creating-server
 | PUT    | /me       | Update user's profile      | none           | none                    | Logged user    | User's name, email, role, password     | none                  | 200             |
 | PATCH  | /password | Update user's password     | none           | none                    | Logged user    | User's new password                    | none                  | 200             |
 
-Note: We use PUT method when we need to update the entire resource (think of it either as replacing an object with another one or updating all fields of a record in a database). PATCH method is used when we need to update some properties of that resource (think it either as changing some attributes of an object or some fields of a record table, but not all attributes/fields it would be a PUT method).
+Note: We use PUT method when we need to update the entire resource (think of it either as replacing an object with another one or updating all fields of a record in a database's table). PATCH method is used when we need to update some properties of that resource (think it either as changing some attributes of an object or some fields of a record in database's table, but not all attributes/fields it would be a PUT method).
 ##### [src/routes/auth.routes.js](src/routes/auth.routes.js)
 
 - create the `router`, import `user.controller`
