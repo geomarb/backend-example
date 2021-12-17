@@ -1,26 +1,32 @@
-class DefaultError extends Error {
+class CustomError extends Error {
   constructor(message, status) {
-    supper(message);
+    super(message);
     this.status = status;
   }
 }
-
-class InternalError extends DefaultError {
+class InternalError extends CustomError {
   constructor() {
-    supper("Something went wrong", 500);
+    super("Something went wrong", 500);
   }
 }
 
-class RecordNotFoundError extends DefaultError {
-  constructor() {
-    supper("Record not found", 404);
+class RecordNotFoundError extends CustomError {
+  constructor(resource, query) {
+    super("Record not found", 404);
+    this.resource = resource;
+    this.query = query;
   }
 }
 
-class InvalidDataError extends DefaultError {
+class InvalidDataError extends CustomError {
   constructor() {
-    supper("Invalid data", 422);
+    super("Invalid data", 422);
   }
 }
 
-module.exports = { InternalError, RecordNotFoundError, InvalidDataError };
+module.exports = {
+  CustomError,
+  InternalError,
+  RecordNotFoundError,
+  InvalidDataError,
+};

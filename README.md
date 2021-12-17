@@ -143,13 +143,13 @@ git push --set-upstream origin step-03-creating-server
 
 ### Users endpoints
 
-| Method | Endpoint   | Description                     | Path Parameter | Request Query Parameter | Access Control        | Request Body                      | Response Body                          | Response Status |
-| ------ | ---------- | ------------------------------- | -------------- | ----------------------- | --------------------- | --------------------------------- | -------------------------------------- | --------------- |
-| GET    | /users     | Returns a list with all users   | none           | none                    | adm role only         | none                              | list of users                          | 200             |
-| GET    | /users/:id | Returns a single user by its id | id             | id                      | adm role only         | none                              | a single user                          | 200             |
-| POST   | /users     | Create a new user               | none           | none                    | adm role only         | New user's name, email            | id, name, email, email                 | 201             |
-| PUT    | /users/:id | Update a user                   | id             | id                      | adm role only         | Modified user's name and/or email | Updated name, email and/or role        | 200             |
-| DELETE | /users/:id | Delete a user                   | id             | id                      | and role and own user | none                              | id, name and email of the deleted user | 200             |
+| Method | Endpoint   | Description                     | Path Parameter | Request Query Parameter | Access Control        | Request Body                       | Response Body                          | Response Status |
+| ------ | ---------- | ------------------------------- | -------------- | ----------------------- | --------------------- | ---------------------------------- | -------------------------------------- | --------------- |
+| GET    | /users     | Returns a list with all users   | none           | none                    | adm role only         | none                               | list of users                          | 200             |
+| GET    | /users/:id | Returns a single user by its id | id             | id                      | adm role only         | none                               | a single user                          | 200             |
+| POST   | /users     | Create a new user               | none           | none                    | adm role only         | New user's name, email             | id, name, email, email                 | 201             |
+| PUT    | /users/:id | Update a user                   | id             | id                      | adm role only         | User's name, email, role, password | Updated name, email and/or role        | 200             |
+| DELETE | /users/:id | Delete a user                   | id             | id                      | and role and own user | none                               | id, name and email of the deleted user | 200             |
 
 ##### [src/models/user.model.js](src/models/user.model.js)
 
@@ -196,10 +196,11 @@ git push --set-upstream origin step-03-creating-server
 | POST   | /register | Create a new user          | none           | none                    | Anyone         | New user's name, email, role, password | id, name, email, role | 201             |
 | POST   | /login    | Create a new login session | none           | none                    | Anyone         | User's email and password              | id, name, email, role | 200             |
 | GET    | /logout   | Delete the current session | none           | none                    | Logged user    | none                                   | none                  | 200             |
-| GET    | /profile  | Get logged user's profile  | none           | none                    | Logged user    | none                                   | none                  | 200             |
-| POST   | /profile  | Update user's profile      | none           | none                    | Logged user    | User's name, email, role               | none                  | 200             |
+| GET    | /me       | Get logged user's profile  | none           | none                    | Logged user    | none                                   | none                  | 200             |
+| PUT    | /me       | Update user's profile      | none           | none                    | Logged user    | User's name, email, role, password     | none                  | 200             |
 | PATCH  | /password | Update user's password     | none           | none                    | Logged user    | User's new password                    | none                  | 200             |
 
+Note: We use PUT method when we need to update the entire resource (think of it either as replacing an object with another one or updating all fields of a record in a database). PATCH method is used when we need to update some properties of that resource (think it either as changing some attributes of an object or some fields of a record table, but not all attributes/fields it would be a PUT method).
 ##### [src/routes/auth.routes.js](src/routes/auth.routes.js)
 
 - create the `router`, import `user.controller`
@@ -208,7 +209,7 @@ git push --set-upstream origin step-03-creating-server
 - create the `GET /logout` route which calls `authController.logout`
 - export the `router`
 
-##### [src/routes/index.js](src/controllers/index.js)
+##### [src/routes/index.js](src/routes/index.js)
 
 - create the `router`, import `./user.routes.js` as `userRoutes`
 - use `userRoutes` in the router under `/users` endpoint
