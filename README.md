@@ -102,13 +102,13 @@ git push --set-upstream origin step-01-structure
 
 ### NPM Packages
 
-- [express](https://www.npmjs.com/package/express) 
-- [cors](https://www.npmjs.com/package/cors) 
-- [cookie-parser](https://www.npmjs.com/package/cookie-parser) 
-- [dotenv](https://www.npmjs.com/package/dotenv) 
-- [mysql2](https://www.npmjs.com/package/mysql2) 
-- [joi](https://www.npmjs.com/package/joi) 
-- [nodemon](https://www.npmjs.com/package/nodemon) 
+- [express](https://www.npmjs.com/package/express)
+- [cors](https://www.npmjs.com/package/cors)
+- [cookie-parser](https://www.npmjs.com/package/cookie-parser)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [mysql2](https://www.npmjs.com/package/mysql2)
+- [joi](https://www.npmjs.com/package/joi)
+- [nodemon](https://www.npmjs.com/package/nodemon)
 
 #### npm commands
 
@@ -117,6 +117,7 @@ npm init -y
 npm install express cors cookie-parser dotenv mysql2 joi
 npm install nodemon --save-dev
 ```
+
 #### git commands
 
 ```console
@@ -184,7 +185,7 @@ git push --set-upstream origin step-03-creating-server
 ##### [src/models/user.model.js](src/models/user.model.js)
 
 - create a fake hard coded users data (this will be changed later to get data from the database)
-- create the `findMany` method which will return all users
+- create the `getAll` method which will return all users
 - create the `findById` method which will return one user by the id
 - create the `create` method which will create a new user and return the user with the id
 - create the `update` method which will update the name and/or email of a user and return the updated user
@@ -231,6 +232,7 @@ git push --set-upstream origin step-03-creating-server
 | PATCH  | /password | Update user's password     | none           | none                    | Logged user    | User's new password                    | none                  | 200             |
 
 Note: We use PUT method when we need to update the entire resource (think of it either as replacing an object with another one or updating all fields of a record in a database's table). PATCH method is used when we need to update some properties of that resource (think it either as changing some attributes of an object or some fields of a record in database's table, but not all attributes/fields it would be a PUT method).
+
 ##### [src/routes/auth.routes.js](src/routes/auth.routes.js)
 
 - create the `router`, import `user.controller`

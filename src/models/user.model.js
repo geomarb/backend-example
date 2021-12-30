@@ -1,53 +1,55 @@
-let lastUserId = 3;
-const users = [
-  { id: 1, email: "maria@mail.com", password: "1234", role: "adm" },
-  { id: 2, email: "joao@mail.com", password: "1234", role: "user" },
-  { id: 3, email: "ana@mail.com", password: "1234", role: "user" },
-];
+const db = require("../config/db");
 
-exports.findMany = () => users;
-
-const findById = (id) => {
-  const index = users.findIndex((user) => user.id === id);
-
-  if (index < 0) return null;
-
-  return { ...users[index], index };
+const getSelectQuery = (fields = ["id", "email", "name", "role"]) => {
+  let selectQuery = `SELECT ${fields.join(", ")} FROM users`;
+  return selectQuery;
 };
 
-exports.findById = findById;
+exports.getAll = async (fields) => await db.query(getSelectQuery(fields));
 
-exports.findByEmail = (email) => users.filter((user) => user.email === email);
+exports.findById = async (id, fields) => {
+  const [user] = await db.query(`${getSelectQuery(fields)} WHERE id = ?`, [id]);
 
-exports.create = (user) => {
-  const newUser = { id: ++lastUserId, ...user };
-
-  users.push(newUser);
-
-  delete newUser.password;
-
-  return newUser;
+  return user;
 };
 
-exports.update = (id, attributes, user) => {
-  const { name, email, role } = attributes;
+exports.findByEmail = async (email, fields) => {
+  const [user] = await db.query(`${getSelectQuery(fields)} WHERE email = ?`, [
+    email,
+  ]);
 
-  const { index, ...userFound } = user ? user : findById(id);
-
-  if (name && name !== userFound.name) users[index].name = name;
-
-  if (email && email !== userFound.email) users[index].email = email;
-
-  if (role && role !== userFound.role) users[index].role = role;
-
-  return users[index];
+  return user;
 };
 
-exports.delete = (id, user) => {
-  // it will not send the password back
-  const { index, password, ...deletedUser } = user ? user : findById(id);
+exports.create = async (user) => {
+  const userCreateQuery = `INSERT INTO users (name, email, password, role) VALUE (?, ?, ?, ?)`;
+  const { name, email, password, role = "user" } = user;
+  const { insertId: id } = await db.query(userCreateQuery, [
+    name,
+    email,
+    password,
+    role,
+  ]);
 
-  users.splice(index, 1);
+  return { ...user, id };
+};
 
-  return deletedUser;
+exports.update = async (id, fields, values) => {
+  const setFields = fields.map((field) => `${field} = ?`).join(", ");
+
+  const updateQuery = `UPDATE users SET ${setFields} where id = ?`;
+
+  return await db.query(updateQuery, [...values, id]);
+};
+
+exports.updatePassword = async (id, password) => {
+  const updateQuery = `UPDATE users SET password = ? where id = ?`;
+
+  return await db.query(updateQuery, [password, id]);
+};
+
+exports.delete = async (id) => {
+  const deleteQuery = "DELETE FROM users WHERE id = ?";
+
+  return await db.query(deleteQuery, [id]);
 };

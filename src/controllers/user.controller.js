@@ -1,58 +1,18 @@
 const { userService } = require("../services");
 
-exports.get = (_req, res, next) => {
-  try {
-    const users = userService.get();
-    res.send(users);
-  } catch (err) {
-    next(err);
-  }
-};
+exports.get = async (_req, res) => res.send(await userService.getAll());
 
-exports.getOne = (req, res, next) => {
-  try {
-    const user = userService.getById(req.params.id);
-    res.send(user);
-  } catch (err) {
-    next(err);
-  }
-};
+exports.getOne = async (req, res) =>
+  res.json(await userService.findById(req.params.id));
 
-exports.create = (req, res, next) => {
-  try {
-    const newUser = userService.create(req.body);
-    res.send(newUser);
-  } catch (err) {
-    next(err);
-  }
-};
+exports.create = async (req, res) =>
+  res.json(await userService.create(req.body));
 
-exports.update = (req, res, next) => {
-  try {
-    const updatedUser = userService.update(req.params.id, req.body);
-    res.send(updatedUser);
-  } catch (err) {
-    next(err);
-  }
-};
+exports.update = async (req, res) =>
+  res.json(await userService.update(req.params.id, req.body));
 
-exports.delete = (req, res, next) => {
-  try {
-    const users = userService.delete(req.params.id, req.body);
-    res.send(users);
-  } catch (err) {
-    next(err);
-  }
-};
+exports.delete = async (req, res) =>
+  res.json(await userService.delete(req.params.id, req.body));
 
-exports.changePassword = (req, res, next) => {
-  try {
-    const updatedUser = userService.changePassword(
-      req.params.id,
-      req.body.password
-    );
-    res.send(updatedUser);
-  } catch (err) {
-    next(err);
-  }
-};
+exports.updatePassword = async (req, res) =>
+  res.json(await userService.updatePassword(req.params.id, req.body));

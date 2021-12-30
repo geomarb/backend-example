@@ -1,10 +1,13 @@
 {
   "dependencies": {
+    "argon2": "^0.28.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-async-handler": "^1.2.0",
     "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3"
   },
   "scripts": {
@@ -21,7 +24,15 @@
     "type": "git",
     "url": "git+https://github.com/geomarb/backend-example.git"
   },
-  "keywords": ["backend", "api", "node", "express", "auth", "role", "login"],
+  "keywords": [
+    "backend",
+    "api",
+    "node",
+    "express",
+    "auth",
+    "role",
+    "login"
+  ],
   "author": "Geomar Bastiani",
   "license": "ISC",
   "bugs": {

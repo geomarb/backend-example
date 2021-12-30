@@ -1,11 +1,17 @@
 const router = require("express").Router();
+const asyncHandler = require("express-async-handler");
 const { userController } = require("../controllers");
 
-router.get("/", userController.get);
-router.get("/:id", userController.getOne);
-router.post("/", userController.create);
-router.put("/:id", userController.update);
-router.patch("/", userController.changePassword);
-router.delete("/:id", userController.delete);
+// only accessible by adm role
+router.post("/", asyncHandler(userController.create));
+router.get("/", asyncHandler(userController.get));
+router.get("/:id", asyncHandler(userController.getOne));
+router.put("/:id", asyncHandler(userController.update));
+router.patch("/:id", asyncHandler(userController.updatePassword));
+router.delete("/:id", asyncHandler(userController.delete));
+
+// only accessible by a logged user
+router.get("/me", asyncHandler(userController.get));
+router.put("/me", asyncHandler(userController.update));
 
 module.exports = router;

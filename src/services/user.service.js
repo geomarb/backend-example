@@ -1,81 +1,59 @@
-const { InvalidDataError, RecordNotFoundError } = require("../error-types");
+const { InvalidDataError } = require("../error-types");
 const { userModel } = require("../models");
+const { userValidator } = require("../validators");
+const { userHelpers } = require("../helpers");
 
-function findUserById(id) {
-  const foundUser = userModel.findById(parseInt(id));
+exports.getAll = async (fields) => await userModel.getAll(fields);
 
-  if (!foundUser) throw new RecordNotFoundError({ id });
+exports.findById = async (id, fields) =>
+  await userValidator.validateUserIdAndGetUser(parseInt(id), fields);
 
-  return foundUser;
-}
+exports.create = async (user) => {
+  await userValidator.validateCreation(user);
 
-exports.get = () => userModel.findMany();
-
-exports.getById = (id) => {
-  if (!id) throw new InvalidDataError();
-
-  return findUserById(parseInt(id));
+  const userCreated = await userModel.create({
+    ...user,
+    password: await userHelpers.hashPassword(user.password),
+  });
+  delete userCreated.password;
+  return { ...userCreated, action: "created" };
 };
 
-exports.create = (user) => {
-  const requiredFields = ["name", "email", "password"];
+exports.update = async (id, newData) => {
+  const user = await userValidator.validateUpdateAndGetUser(id, newData);
 
-  if (!user) throw new InvalidDataError({ user });
+  const [fields, values] = userHelpers.getFieldsAndValuesChanged(newData, user);
 
-  if (!user.name) requiredFields.push("name");
+  const passwordIndex = fields.findIndex((field) => field === "password");
 
-  if (!user.email) requiredFields.push("email");
-
-  if (!user.password) requiredFields.push("password");
-
-  if (requiredFields.length > 1) {
-    throw new InvalidDataError({ requiredFields });
+  if (passwordIndex > -1) {
+    values[passwordIndex] = await userHelpers.hashPassword(
+      values[passwordIndex]
+    );
   }
 
-  return userModel.create(user);
+  await userModel.update(id, fields, values);
+
+  delete newData.password;
+  delete user.password;
+
+  return { ...user, ...newData, action: "updated", updatedFields: fields };
 };
 
-exports.update = (id, attributes) => {
-  if (!id) throw new InvalidDataError({ error: "Id is empty" });
+exports.delete = async (id) => {
+  const user = await userValidator.validateUserIdAndGetUser(id);
 
-  const { email, name, role, password } = attributes;
+  await userModel.delete(id);
 
-  if (!(email || name || role || password)) {
-    throw new InvalidDataError({ error: "No attributes to be updated" });
-  }
-
-  const userFound = findUserById(id);
-
-  if (
-    userFound.email === email &&
-    userFound.name === name &&
-    userFound.role === role &&
-    userFound.password === password
-  ) {
-    throw new InvalidDataError("Nothing to update");
-  }
-
-  return userModel.update(id, attributes, userFound);
+  return { ...user, action: "deleted" };
 };
 
-exports.delete = (id) => {
-  const userFound = findUserById(id);
+exports.updatePassword = async (id, { password, newPassword }) => {
+  await userValidator.validatePasswordUpdate(id, password, newPassword);
 
-  if (!userFound) throw new RecordNotFoundError({ id });
+  const hashedPassword = await userHelpers.hashPassword(newPassword);
 
-  return userModel.delete(id, userFound);
-};
+  await userModel.updatePassword(id, hashedPassword);
 
-exports.changePassword = (id, newPassword) => {
-  if (!id) throw new InvalidDataError({ error: "Id is empty" });
-  if (!newPassword)
-    throw new InvalidDataError({ error: "New Password is empty" });
-
-  const userFound = findUserById(id);
-
-  if (userFound.password === newPassword) {
-    throw new InvalidDataError("Nothing to update");
-  }
-
-  return userModel.update(id, { password }, userFound);
+  return { id, action: "Password updated" };
 };

@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:5000/api/users
+
+@contentType = application/json
+
+#@email = "geo1@mail.com"
+@email = "geomar.bastiani@gmail.com"
+@password = "pwd12345"
+@name = "Geomar Tomás Cadore Bastiani"
+
+###
+POST {{ baseUrl }}
+Content-Type: {{ contentType }}
+origin: {{ baseURL }}
+
+{
+  "name": {{ name }},
+  "password": {{ password }},
+  "email": {{ email }},
+  "password": {{ password }},
+  "role":"user"
+}
+
+###
+PUT {{ baseUrl }}/20
+Content-Type: {{ contentType }}
+origin: {{ baseURL }}
+
+{
+  "name": "Geomar Tomás Cadore Bastiani",
+  "email": "geomar.bastiani1@gmail.com",
+  "password": "pwd123456",
+  "role": "user"
+}
+
+###
+PATCH  {{ baseUrl }}/20
+Content-Type: {{ contentType }}
+origin: {{ baseURL }}
+
+{
+  "password": "pwd123456",
+  "newPassword":"12345678"
+}
+
+###
+DELETE {{ baseUrl }}/17
+Content-Type: {{ contentType }}
+origin: {{ baseURL }}
+
+
+###
+GET {{ baseUrl }}
+
+###
+GET {{ baseUrl }}/8

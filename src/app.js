@@ -3,9 +3,13 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const router = require("./routes");
 const { errorHandlingMiddleware } = require("./middlewares");
+const { EndpointNotFoundError } = require("./error-types");
 
 // create an instance of the express in the app
 const app = express();
+
+// parse the body
+app.use(express.json());
 
 // use cors: a third-party middleware
 // it adds "Access-Control-Allow-Origin: *" in the header of each response
@@ -20,6 +24,12 @@ app.use(cookieParser());
 
 app.use("/api", router);
 
+// if the route was not found return a default error
+app.use("*", (req, _res, next) =>
+  next(new EndpointNotFoundError(`${req.method} ${req.originalUrl}`))
+);
+
+// it will treat the errors when they happen
 app.use(errorHandlingMiddleware);
 
 module.exports = app;

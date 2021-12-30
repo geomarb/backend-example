@@ -7,7 +7,7 @@ module.exports = (err, _req, res, next) => {
 
   const error = err instanceof CustomError ? err : new InternalError();
 
-  const { message, status, detail } = error;
+  const { status, message, errorType, details } = error;
 
-  res.status(status).json({ message, ...detail });
+  res.status(status).json({ message, errorType, details });
 };
