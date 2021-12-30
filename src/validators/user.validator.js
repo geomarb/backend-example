@@ -6,7 +6,7 @@ const {
   AlreadyExistsError,
   AuthenticationError,
 } = require("../error-types");
-const { userHelpers } = require("../helpers");
+const { userHelper } = require("../helpers");
 const { userModel } = require("../models");
 
 const getPresence = (fields, field) =>
@@ -87,7 +87,7 @@ exports.validateUpdateAndGetUser = async (id, newData) => {
       newData[field] !== user[field] &&
       user[field] !== undefined &&
       field === "password" &&
-      !(await userHelpers.verifyPassword(user[field], newData[field]))
+      !(await userHelper.verifyPassword(user[field], newData[field]))
     ) {
       hasChanges = true;
     }
@@ -100,8 +100,6 @@ exports.validateUpdateAndGetUser = async (id, newData) => {
   return user;
 };
 
-exports.validateLogin = (user) => this.validate(user, ["email", "password"]);
-
 exports.validatePasswordUpdate = async (id, password, newPassword) => {
   if (password === newPassword)
     throw new ValidationError("New passowrd is equal to the old one");
@@ -111,6 +109,6 @@ exports.validatePasswordUpdate = async (id, password, newPassword) => {
 
   const user = await this.validateUserIdAndGetUser(id, ["password"]);
 
-  if (!(await userHelpers.verifyPassword(user.password, password)))
+  if (!(await userHelper.verifyPassword(user.password, password)))
     throw new AuthenticationError("Wrong password");
 };

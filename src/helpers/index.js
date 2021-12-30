@@ -1,1 +1,2 @@
-exports.userHelpers = require("./user.helpers");
+exports.userHelper = require("./user.helper");
+exports.authHelper = require("./auth.helper");

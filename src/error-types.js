@@ -1,4 +1,4 @@
-class CustomError extends Error {
+class HttpError extends Error {
   constructor(status, errorType, message, details) {
     super(message);
     this.status = status;
@@ -6,50 +6,62 @@ class CustomError extends Error {
     this.details = details;
   }
 }
-class InternalError extends CustomError {
+class InternalError extends HttpError {
   constructor() {
     super(500, "Internal", "Something went wrong");
   }
 }
 
-class RecordNotFoundError extends CustomError {
+class RecordNotFoundError extends HttpError {
   constructor(message) {
     super(404, "Record not found", message);
   }
 }
 
-class InvalidDataError extends CustomError {
+class InvalidDataError extends HttpError {
   constructor(message) {
     super(422, "Invalid data", message);
   }
 }
 
-class EndpointNotFoundError extends CustomError {
+class EndpointNotFoundError extends HttpError {
   constructor(endpoint) {
-    super(404, "Endpoint not found", `"${endpoint}" does not exist`);
+    super(404, "Invalid endpoint", `"${endpoint}" does not exist`);
   }
 }
 
-class ValidationError extends CustomError {
+class ValidationError extends HttpError {
   constructor(message, details) {
     super(422, "Validation", message, details);
   }
 }
 
-class AuthenticationError extends CustomError {
+class AuthenticationError extends HttpError {
   constructor(message) {
     super(422, "Authentication", message);
   }
 }
 
-class AlreadyExistsError extends CustomError {
+class AlreadyExistsError extends HttpError {
   constructor(message) {
     super(409, "Already exists", message);
   }
 }
 
+class UnauthorizedError extends HttpError {
+  constructor(message) {
+    super(401, "Unauthorized", message);
+  }
+}
+
+class ForbiddenError extends HttpError {
+  constructor(message) {
+    super(403, "Forbidden", message);
+  }
+}
+
 module.exports = {
-  CustomError,
+  HttpError,
   InternalError,
   RecordNotFoundError,
   InvalidDataError,
@@ -57,4 +69,6 @@ module.exports = {
   EndpointNotFoundError,
   AlreadyExistsError,
   AuthenticationError,
+  UnauthorizedError,
+  ForbiddenError,
 };

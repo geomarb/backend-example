@@ -5,6 +5,9 @@ exports.get = async (_req, res) => res.send(await userService.getAll());
 exports.getOne = async (req, res) =>
   res.json(await userService.findById(req.params.id));
 
+exports.getCurrent = async (req, res) =>
+  res.json(await userService.findById(req.userId));
+
 exports.create = async (req, res) =>
   res.json(await userService.create(req.body));
 

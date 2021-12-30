@@ -1,11 +1,13 @@
 const router = require("express").Router();
-const { authController, userController } = require("../controllers");
+const asyncHandler = require("express-async-handler");
+
+const { authController } = require("../controllers");
 const { authMiddleware } = require("../middlewares");
 
-router.post("/register", userController.create);
+router.post("/register", asyncHandler(authController.register));
 
-router.post("/login", authController.login);
+router.post("/login", asyncHandler(authController.login));
 
-router.get("/logout", authMiddleware, authController.logout);
+router.get("/logout", authMiddleware, asyncHandler(authController.logout));
 
 module.exports = router;

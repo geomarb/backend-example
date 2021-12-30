@@ -1,7 +1,7 @@
 const { InvalidDataError } = require("../error-types");
 const { userModel } = require("../models");
 const { userValidator } = require("../validators");
-const { userHelpers } = require("../helpers");
+const { userHelper } = require("../helpers");
 
 exports.getAll = async (fields) => await userModel.getAll(fields);
 
@@ -13,21 +13,23 @@ exports.create = async (user) => {
 
   const userCreated = await userModel.create({
     ...user,
-    password: await userHelpers.hashPassword(user.password),
+    password: await userHelper.hashPassword(user.password),
   });
+
   delete userCreated.password;
+
   return { ...userCreated, action: "created" };
 };
 
 exports.update = async (id, newData) => {
   const user = await userValidator.validateUpdateAndGetUser(id, newData);
 
-  const [fields, values] = userHelpers.getFieldsAndValuesChanged(newData, user);
+  const [fields, values] = userHelper.getFieldsAndValuesChanged(newData, user);
 
   const passwordIndex = fields.findIndex((field) => field === "password");
 
   if (passwordIndex > -1) {
-    values[passwordIndex] = await userHelpers.hashPassword(
+    values[passwordIndex] = await userHelper.hashPassword(
       values[passwordIndex]
     );
   }
@@ -51,7 +53,7 @@ exports.delete = async (id) => {
 exports.updatePassword = async (id, { password, newPassword }) => {
   await userValidator.validatePasswordUpdate(id, password, newPassword);
 
-  const hashedPassword = await userHelpers.hashPassword(newPassword);
+  const hashedPassword = await userHelper.hashPassword(newPassword);
 
   await userModel.updatePassword(id, hashedPassword);
 

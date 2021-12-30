@@ -1,0 +1,38 @@
+@baseUrl = http://localhost:5000/api/auth
+
+@contentType = application/json
+
+#@email = "geo1@mail.com"
+@email = "geomar5.bastiani@gmail.com"
+@password = "pwd12345"
+@name = "Geomar Tomás Cadore Bastiani"
+@cookie = token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2NDA4Nzg1NDQsImV4cCI6MTY0MDk2NDk0NH0.rcY44v8VLP1giNI0aDmjW4a-guEW-UdOr8w9xAbLdjY
+
+###
+POST {{ baseUrl }}/register
+Content-Type: {{ contentType }}
+origin: {{ baseURL }}
+
+{
+  "name": {{ name }},
+  "password": {{ password }},
+  "email": {{ email }},
+  "password": {{ password }},
+  "role":"user"
+}
+
+###
+POST {{ baseUrl }}/login
+Content-Type: {{ contentType }}
+origin: {{ baseURL }}
+
+{
+  "email": {{ email }},
+  "password": {{ password }}
+}
+
+###
+GET  {{ baseUrl }}/logout
+Content-Type: {{ contentType }}
+origin: {{ baseURL }}
+Cookie: {{ token }}

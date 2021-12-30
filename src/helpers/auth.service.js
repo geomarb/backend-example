@@ -7,7 +7,7 @@ exports.login = async (credentials) => {
     credentials
   );
 
-  const token = authHelper.generateToken(userFound.id, userFound.role);
+  const token = authHelper.userHelper(userFound.id, userFound.role);
 
   delete userFound.password;
 
@@ -17,7 +17,7 @@ exports.login = async (credentials) => {
 exports.register = async (user) => {
   const userCreated = await userService.create(user);
 
-  const token = authHelper.generateToken(userCreated.id, userCreated.role);
+  const token = authHelper.userHelper(userFound.id, userFound.role);
 
   return { ...userCreated, action: "registered", token };
 };

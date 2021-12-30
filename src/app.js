@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 // use cookie-parser: a third-party middleware
-// it adds a "cookie" property in the request (req)
+// it adds a "cookies" property in the request (req)
 // in production you MUST add some configurations here for security reasons
 // the cookie will be used later for the auth process
 app.use(cookieParser());

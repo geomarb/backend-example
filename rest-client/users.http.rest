@@ -3,7 +3,7 @@
 @contentType = application/json
 
 #@email = "geo1@mail.com"
-@email = "geomar.bastiani@gmail.com"
+@email = "geomar4.bastiani@gmail.com"
 @password = "pwd12345"
 @name = "Geomar Tomás Cadore Bastiani"
 

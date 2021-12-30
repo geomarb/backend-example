@@ -1,7 +1,4 @@
 const argon2 = require("argon2");
-const jwt = require("jsonwebtoken");
-
-const { JWT_PRIVATE_KEY } = process.env;
 
 const hashingOptions = {
   type: argon2.argon2id,
@@ -10,19 +7,10 @@ const hashingOptions = {
   parallelism: 1,
 };
 
-exports.generateToken = (userId) => {
-  if (!userId) throw new Error("Invalid userId");
-
-  return jwt.sign({ userId }, JWT_PRIVATE_KEY, { expiresIn: 1 * 24 * 60 * 60 }); // token expires in one day
-};
-
-exports.decodeToken = (token) =>
-  jwt.verify(token, JWT_PRIVATE_KEY, hashingOptions);
-
 exports.hashPassword = async (password) =>
   await argon2.hash(password, hashingOptions);
 
-exports.verifyPassword = async (hashed,candidate) =>
+exports.verifyPassword = async (hashed, candidate) =>
   await argon2.verify(hashed, candidate);
 
 exports.getFieldsAndValuesChanged = (newData, data) => {
