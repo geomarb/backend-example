@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const router = require("./routes");
-const { errorHandlingMiddleware } = require("./middlewares");
+
+const { router, authRoutes } = require("./routes");
+const { errorHandlingMiddleware, authMiddleware } = require("./middlewares");
 const { EndpointNotFoundError } = require("./error-types");
 
 // create an instance of the express in the app
@@ -22,7 +23,8 @@ app.use(cors());
 // the cookie will be used later for the auth process
 app.use(cookieParser());
 
-app.use("/api", router);
+app.use("/auth", authRoutes);
+app.use("/api", authMiddleware, router);
 
 // if the route was not found return a default error
 app.use("*", (req, _res, next) =>

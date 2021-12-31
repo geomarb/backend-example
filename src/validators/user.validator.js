@@ -1,3 +1,4 @@
+const { is } = require("express/lib/request");
 const Joi = require("joi");
 const {
   ValidationError,
@@ -5,6 +6,7 @@ const {
   RecordNotFoundError,
   AlreadyExistsError,
   AuthenticationError,
+  UnauthorizedError,
 } = require("../error-types");
 const { userHelper } = require("../helpers");
 const { userModel } = require("../models");
@@ -52,25 +54,26 @@ exports.validateIfEmailExists = async (email) => {
     throw new AlreadyExistsError(`"${email}" is already registered`);
 };
 
-exports.validateUserIdAndGetUser = async (id, fields) => {
-  if (!id) throw new InvalidDataError("User Id is empty");
+exports.validateUserIdAndGetUser = async (userId, fields) => {
+  if (!userId) throw new InvalidDataError("User Id is empty");
 
-  const user = await userModel.findById(id, fields);
+  const user = await userModel.findById(userId, fields);
 
-  if (!user) throw new RecordNotFoundError(`User id: ${id} not found`);
+  if (!user) throw new RecordNotFoundError(`User id: ${userId} not found`);
 
   return user;
 };
 
-exports.validateCreation = async (user) => {
-  this.validate(user);
+exports.validateCreation = async (newUser) => {
+  this.validate(newUser);
 
-  const { email } = user;
+  const { email } = newUser;
 
   await this.validateIfEmailExists(email);
 };
 
-exports.validateUpdateAndGetUser = async (id, newData) => {
+exports.validateUpdateAndGetUser = async (currentUser, userId, newData) => {
+  this.validatePermission(currentUser, userId);
   this.validate(newData, []);
 
   const { email, name, role, password } = newData;
@@ -78,16 +81,18 @@ exports.validateUpdateAndGetUser = async (id, newData) => {
   if (!(email || name || role || password))
     throw new InvalidDataError("Nothing to be changed");
 
-  const user = await this.validateUserIdAndGetUser(id, ["*"]);
+  const userFound = await this.validateUserIdAndGetUser(userId, ["*"]);
 
   let hasChanges = false;
 
   for (field in newData) {
+    if (userFound[field] === undefined)
+      throw ValidationError(`Invalid field ${field}`);
+
     if (
-      newData[field] !== user[field] &&
-      user[field] !== undefined &&
-      field === "password" &&
-      !(await userHelper.verifyPassword(user[field], newData[field]))
+      (field === "password" &&
+        !(await userHelper.verifyPassword(userFound[field], newData[field]))) ||
+      newData[field] !== userFound[field]
     ) {
       hasChanges = true;
     }
@@ -95,20 +100,32 @@ exports.validateUpdateAndGetUser = async (id, newData) => {
 
   if (!hasChanges) throw new InvalidDataError("Nothing to be changed");
 
-  if (email !== user.email) await this.validateIfEmailExists(email);
+  if (role && role !== userFound.role && !userHelper.isAdm(currentUser))
+    throw new UnauthorizedError("Cannot change 'role'");
 
-  return user;
+  if (email !== userFound.email) await this.validateIfEmailExists(email);
+
+  return userFound;
 };
 
-exports.validatePasswordUpdate = async (id, password, newPassword) => {
+exports.validatePasswordUpdate = async (currentUser, userId, data) => {
+  this.validatePermission(currentUser, userId);
+
+  const { password, newPassword } = data;
+
   if (password === newPassword)
-    throw new ValidationError("New passowrd is equal to the old one");
+    throw new ValidationError("New password is equal to the old one");
 
   this.validate({ password }, ["password"]);
   this.validate({ password: newPassword }, ["password"]);
 
-  const user = await this.validateUserIdAndGetUser(id, ["password"]);
+  const userFound = await this.validateUserIdAndGetUser(userId, ["password"]);
 
-  if (!(await userHelper.verifyPassword(user.password, password)))
+  if (!(await userHelper.verifyPassword(userFound.password, password)))
     throw new AuthenticationError("Wrong password");
+};
+
+exports.validatePermission = (currentUser, userId) => {
+  if (currentUser.id !== userId && !userHelper.isAdm(currentUser))
+    throw new UnauthorizedError("Permission denied");
 };

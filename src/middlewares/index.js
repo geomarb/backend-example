@@ -1,3 +1,3 @@
 exports.authMiddleware = require("./auth.middleware");
-exports.protectedMiddleware = require("./protected.middleware");
+exports.protectMiddleware = require("./protect.middleware");
 exports.errorHandlingMiddleware = require("./error-handling.middleware");

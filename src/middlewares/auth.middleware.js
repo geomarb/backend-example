@@ -1,17 +1,14 @@
 // TODO implement auth middleware
-const { UnauthorizedError } = require("../error-types");
+const { UnauthorizedError, ForbiddenError } = require("../error-types");
 const { authHelper } = require("../helpers");
 
 module.exports = (req, _res, next) => {
+  console.log(req.cookies);
+
+  if (!req.cookies?.login) return next(new ForbiddenError("Invalid token"));
+
   try {
-    if (!req.cookies?.token) throw new Error();
-
-    const { userId, role } = authHelper.decodeToken(req.cookies.token);
-
-    req.userId = userId;
-    req.role = role;
-
-    console.log({ userId, role });
+    req.currentUser = authHelper.decodeToken(req.cookies.login);
 
     next();
   } catch (error) {

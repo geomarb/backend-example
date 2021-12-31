@@ -54,6 +54,12 @@ class UnauthorizedError extends HttpError {
   }
 }
 
+class InvalidCredentialsError extends HttpError {
+  constructor(message) {
+    super(401, "Unauthorized", "Invalid credentials");
+  }
+}
+
 class ForbiddenError extends HttpError {
   constructor(message) {
     super(403, "Forbidden", message);
@@ -71,4 +77,5 @@ module.exports = {
   AuthenticationError,
   UnauthorizedError,
   ForbiddenError,
+  InvalidCredentialsError,
 };

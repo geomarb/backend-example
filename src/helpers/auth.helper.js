@@ -2,12 +2,10 @@ const jwt = require("jsonwebtoken");
 
 const { JWT_PRIVATE_KEY } = process.env;
 
-exports.generateToken = (userId, role) => {
-  if (!userId) throw new Error("Invalid userId");
+exports.generateToken = ({ id, role }) => {
+  if (!id || !role) throw new Error("Invalid user");
 
-  return jwt.sign({ userId, role }, JWT_PRIVATE_KEY, {
-    expiresIn: 1 * 24 * 60 * 60,
-  }); // token expires in one day
+  return jwt.sign({ id, role }, JWT_PRIVATE_KEY, { expiresIn: 60 * 60 * 60 });
 };
 
 exports.decodeToken = (token) => jwt.verify(token, JWT_PRIVATE_KEY);

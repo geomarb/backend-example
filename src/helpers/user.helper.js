@@ -33,3 +33,5 @@ exports.getFieldsAndValuesChanged = (newData, data) => {
 
   return result;
 };
+
+exports.isAdm = ({ role }) => role === "adm";

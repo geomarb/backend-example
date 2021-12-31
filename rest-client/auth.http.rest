@@ -1,12 +1,11 @@
-@baseUrl = http://localhost:5000/api/auth
+@baseUrl = http://localhost:5000/auth
 
 @contentType = application/json
 
 #@email = "geo1@mail.com"
-@email = "geomar5.bastiani@gmail.com"
-@password = "pwd12345"
+@email = "geomar1.bastiani@gmail.com"
+@password = "geo12345"
 @name = "Geomar Tomás Cadore Bastiani"
-@cookie = token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2NDA4Nzg1NDQsImV4cCI6MTY0MDk2NDk0NH0.rcY44v8VLP1giNI0aDmjW4a-guEW-UdOr8w9xAbLdjY
 
 ###
 POST {{ baseUrl }}/register
@@ -18,7 +17,7 @@ origin: {{ baseURL }}
   "password": {{ password }},
   "email": {{ email }},
   "password": {{ password }},
-  "role":"user"
+  "role":"adm"
 }
 
 ###
@@ -35,4 +34,3 @@ origin: {{ baseURL }}
 GET  {{ baseUrl }}/logout
 Content-Type: {{ contentType }}
 origin: {{ baseURL }}
-Cookie: {{ token }}

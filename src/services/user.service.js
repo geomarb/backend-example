@@ -1,4 +1,3 @@
-const { InvalidDataError } = require("../error-types");
 const { userModel } = require("../models");
 const { userValidator } = require("../validators");
 const { userHelper } = require("../helpers");
@@ -8,12 +7,12 @@ exports.getAll = async (fields) => await userModel.getAll(fields);
 exports.findById = async (id, fields) =>
   await userValidator.validateUserIdAndGetUser(parseInt(id), fields);
 
-exports.create = async (user) => {
-  await userValidator.validateCreation(user);
+exports.createOne = async (newUser) => {
+  await userValidator.validateCreation(newUser);
 
-  const userCreated = await userModel.create({
-    ...user,
-    password: await userHelper.hashPassword(user.password),
+  const userCreated = await userModel.createOne({
+    ...newUser,
+    password: await userHelper.hashPassword(newUser.password),
   });
 
   delete userCreated.password;
@@ -21,10 +20,17 @@ exports.create = async (user) => {
   return { ...userCreated, action: "created" };
 };
 
-exports.update = async (id, newData) => {
-  const user = await userValidator.validateUpdateAndGetUser(id, newData);
+exports.updateOne = async (currentUser, userId, newData) => {
+  const userFound = await userValidator.validateUpdateAndGetUser(
+    currentUser,
+    userId,
+    newData
+  );
 
-  const [fields, values] = userHelper.getFieldsAndValuesChanged(newData, user);
+  const [fields, values] = userHelper.getFieldsAndValuesChanged(
+    newData,
+    userFound
+  );
 
   const passwordIndex = fields.findIndex((field) => field === "password");
 
@@ -34,28 +40,28 @@ exports.update = async (id, newData) => {
     );
   }
 
-  await userModel.update(id, fields, values);
+  await userModel.updateOne(userId, fields, values);
 
   delete newData.password;
-  delete user.password;
+  delete userFound.password;
 
-  return { ...user, ...newData, action: "updated", updatedFields: fields };
+  return { ...userFound, ...newData, action: "updated", updatedFields: fields };
 };
 
-exports.delete = async (id) => {
-  const user = await userValidator.validateUserIdAndGetUser(id);
+exports.deleteOne = async (userId) => {
+  const user = await userValidator.validateUserIdAndGetUser(userId);
 
-  await userModel.delete(id);
+  await userModel.deleteOne(userId);
 
   return { ...user, action: "deleted" };
 };
 
-exports.updatePassword = async (id, { password, newPassword }) => {
-  await userValidator.validatePasswordUpdate(id, password, newPassword);
+exports.updatePassword = async (currentUser, userId, data) => {
+  await userValidator.validatePasswordUpdate(currentUser, userId, data);
 
-  const hashedPassword = await userHelper.hashPassword(newPassword);
+  const hashedPassword = await userHelper.hashPassword(data.newPassword);
 
-  await userModel.updatePassword(id, hashedPassword);
+  await userModel.updatePassword(userId, hashedPassword);
 
-  return { id, action: "Password updated" };
+  return { id: userId, action: "Password updated" };
 };

@@ -1,8 +1,8 @@
 const { ForbiddenError } = require("../error-types");
+const { userHelper } = require("../helpers");
 
 module.exports = (req, _res, next) => {
-  console.log("protected middleware", req.role, req.userId, "**********");
-  if (req.role === "adm") return next();
+  if (userHelper.isAdm(req.currentUser)) return next();
 
   throw new ForbiddenError("Not allowed");
 };

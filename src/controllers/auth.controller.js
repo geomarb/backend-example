@@ -1,16 +1,18 @@
 const { authService } = require("../services");
 
+const cookiesOptions = { httpOnly: true }; // Expires in 4 hours (same as token)
+
+exports.register = async (req, res) => {
+  const { token, ...user } = await authService.register(req.body);
+
+  res.cookie("login", token, cookiesOptions).json(user);
+};
+
 exports.login = async (req, res) => {
   const { token, ...user } = await authService.login(req.body);
 
-  res.cookie("token", token, { httpOnly: true }).json(user);
+  res.cookie("login", token, cookiesOptions).json(user);
 };
 
-exports.logout = async (req, res) =>
-  res.clearCookie("token").json({ message: "logout" });
-
-exports.register = async (req, res) => {
-  const { token, ...registeredUser } = await authService.register(req.body);
-  console.log({ token, registeredUser });
-  res.cookie("token", token, { httpOnly: true }).json(registeredUser);
-};
+exports.logout = async (_req, res) =>
+  res.clearCookie("login").json({ message: "logout" });

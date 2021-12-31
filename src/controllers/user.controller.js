@@ -2,20 +2,38 @@ const { userService } = require("../services");
 
 exports.get = async (_req, res) => res.send(await userService.getAll());
 
-exports.getOne = async (req, res) =>
+exports.findById = async (req, res) =>
   res.json(await userService.findById(req.params.id));
 
-exports.getCurrent = async (req, res) =>
-  res.json(await userService.findById(req.userId));
+exports.getMe = async (req, res) =>
+  res.json(await userService.findById(req.currentUser.id));
 
-exports.create = async (req, res) =>
-  res.json(await userService.create(req.body));
+exports.createOne = async (req, res) =>
+  res.json(await userService.createOne(req.body));
 
-exports.update = async (req, res) =>
-  res.json(await userService.update(req.params.id, req.body));
+exports.updateOne = async (req, res) =>
+  res.json(
+    await userService.updateOne(req.currentUser, req.params.id, req.body)
+  );
 
-exports.delete = async (req, res) =>
-  res.json(await userService.delete(req.params.id, req.body));
+exports.updateMe = async (req, res) =>
+  res.json(
+    await userService.updateOne(req.currentUser, req.currentUser.id, req.body)
+  );
+
+exports.deleteOne = async (req, res) =>
+  res.json(await userService.deleteOne(req.params.id, req.body));
 
 exports.updatePassword = async (req, res) =>
-  res.json(await userService.updatePassword(req.params.id, req.body));
+  res.json(
+    await userService.updatePassword(req.currentUser, req.params.id, req.body)
+  );
+
+exports.updateMyPassword = async (req, res) =>
+  res.json(
+    await userService.updatePassword(
+      req.currentUser,
+      req.currentUser.id,
+      req.body
+    )
+  );

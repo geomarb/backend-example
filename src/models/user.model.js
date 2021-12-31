@@ -21,7 +21,7 @@ exports.findByEmail = async (email, fields) => {
   return user;
 };
 
-exports.create = async (user) => {
+exports.createOne = async (user) => {
   const userCreateQuery = `INSERT INTO users (name, email, password, role) VALUE (?, ?, ?, ?)`;
   const { name, email, password, role = "user" } = user;
   const { insertId: id } = await db.query(userCreateQuery, [
@@ -34,7 +34,7 @@ exports.create = async (user) => {
   return { ...user, id };
 };
 
-exports.update = async (id, fields, values) => {
+exports.updateOne = async (id, fields, values) => {
   const setFields = fields.map((field) => `${field} = ?`).join(", ");
 
   const updateQuery = `UPDATE users SET ${setFields} where id = ?`;
@@ -48,7 +48,7 @@ exports.updatePassword = async (id, password) => {
   return await db.query(updateQuery, [password, id]);
 };
 
-exports.delete = async (id) => {
+exports.deleteOne = async (id) => {
   const deleteQuery = "DELETE FROM users WHERE id = ?";
 
   return await db.query(deleteQuery, [id]);
