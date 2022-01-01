@@ -1,6 +1,6 @@
 const { authService } = require("../services");
 
-const cookiesOptions = { httpOnly: true }; // Expires in 4 hours (same as token)
+const cookiesOptions = { httpOnly: true };
 
 exports.register = async (req, res) => {
   const { token, ...user } = await authService.register(req.body);

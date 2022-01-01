@@ -2,11 +2,16 @@ const { userModel } = require("../models");
 const { userValidator } = require("../validators");
 const { userHelper } = require("../helpers");
 
-exports.getAll = async (fields) => await userModel.getAll(fields);
+exports.findAll = async (currentUser, userId, fields) => {
+  await userValidator.validatePermission(currentUser, userId);
+  return await userModel.getAll(fields);
+};
 
-exports.findById = async (id, fields) =>
-  await userValidator.validateUserIdAndGetUser(parseInt(id), fields);
+exports.findById = async (currentUser, userId, fields) => {
+  userValidator.validatePermission(currentUser, userId);
 
+  return await userValidator.validateUserIdAndGetUser(userId, fields);
+};
 exports.createOne = async (newUser) => {
   await userValidator.validateCreation(newUser);
 
@@ -21,6 +26,8 @@ exports.createOne = async (newUser) => {
 };
 
 exports.updateOne = async (currentUser, userId, newData) => {
+  userValidator.validatePermission(currentUser, userId);
+
   const userFound = await userValidator.validateUpdateAndGetUser(
     currentUser,
     userId,
@@ -48,7 +55,9 @@ exports.updateOne = async (currentUser, userId, newData) => {
   return { ...userFound, ...newData, action: "updated", updatedFields: fields };
 };
 
-exports.deleteOne = async (userId) => {
+exports.deleteOne = async (currentUser, userId) => {
+  userValidator.validatePermission(currentUser, userId);
+
   const user = await userValidator.validateUserIdAndGetUser(userId);
 
   await userModel.deleteOne(userId);
@@ -57,6 +66,8 @@ exports.deleteOne = async (userId) => {
 };
 
 exports.updatePassword = async (currentUser, userId, data) => {
+  userValidator.validatePermission(currentUser, userId);
+
   await userValidator.validatePasswordUpdate(currentUser, userId, data);
 
   const hashedPassword = await userHelper.hashPassword(data.newPassword);

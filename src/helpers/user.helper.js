@@ -35,3 +35,5 @@ exports.getFieldsAndValuesChanged = (newData, data) => {
 };
 
 exports.isAdm = ({ role }) => role === "adm";
+
+exports.isCurrentUser = ({ id }, userId) => id === userId;

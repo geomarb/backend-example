@@ -3,8 +3,6 @@ const { UnauthorizedError, ForbiddenError } = require("../error-types");
 const { authHelper } = require("../helpers");
 
 module.exports = (req, _res, next) => {
-  console.log(req.cookies);
-
   if (!req.cookies?.login) return next(new ForbiddenError("Invalid token"));
 
   try {

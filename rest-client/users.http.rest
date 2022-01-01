@@ -1,8 +1,5 @@
 @baseUrl = http://localhost:5000/api/users
-
 @contentType = application/json
-
-#@email = "geo1@mail.com"
 @email = "geomar99988.bastiani@gmail.com"
 @password = "pwd12345"
 @name = "Geomar Tomás Cadore Bastiani"
@@ -31,17 +28,17 @@ origin: {{ baseURL }}
 }
 
 ###
-PATCH  {{ baseUrl }}/21
-Content-Type: {{ contentType }}
+PATCH  {{ baseUrl }}/23/password
+Content-Type: {{ c<ontentType }}
 origin: {{ baseURL }}
 
 {
-  "password": {{ password }},
-  "newPassword": "12345678"
+  "password":"12345678",
+  "newPassword": "geo12345"
 }
 
 ###
-DELETE {{ baseUrl }}/21
+DELETE {{ baseUrl }}/23
 Content-Type: {{ contentType }}
 origin: {{ baseURL }}
 
@@ -50,25 +47,25 @@ origin: {{ baseURL }}
 GET {{ baseUrl }}/
 
 ###
-GET {{ baseUrl }}/me
+GET {{ baseUrl }}/current
 
 ###
-PUT {{ baseUrl }}/me
+PUT {{ baseUrl }}/current
 Content-Type: {{ contentType }}
 origin: {{ baseURL }}
 
 {
-  "name": "ggqgx"
+  "name": "new name"
 }
 
 ### 
-PATCH  {{ baseUrl }}/me/password
+PATCH  {{ baseUrl }}/current/password
 Content-Type: {{ contentType }}
 origin: {{ baseURL }}
 
 {
-  "password": "geo12345",
-  "newPassword":"12345678"
+  "password":"geo12345",
+  "newPassword": "geo123456"
 }
 
 ###

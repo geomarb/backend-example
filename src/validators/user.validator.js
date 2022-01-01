@@ -1,4 +1,3 @@
-const { is } = require("express/lib/request");
 const Joi = require("joi");
 const {
   ValidationError,
@@ -47,7 +46,7 @@ exports.validate = (user, requiredFields) => {
   if (error) throw new ValidationError(error.message, error.details);
 };
 
-exports.validateIfEmailExists = async (email) => {
+exports.validateIfEmailIsAlreadyRegistered = async (email) => {
   const userFound = await userModel.findByEmail(email);
 
   if (userFound)
@@ -69,11 +68,10 @@ exports.validateCreation = async (newUser) => {
 
   const { email } = newUser;
 
-  await this.validateIfEmailExists(email);
+  await this.validateIfEmailIsAlreadyRegistered(email);
 };
 
 exports.validateUpdateAndGetUser = async (currentUser, userId, newData) => {
-  this.validatePermission(currentUser, userId);
   this.validate(newData, []);
 
   const { email, name, role, password } = newData;
@@ -98,34 +96,48 @@ exports.validateUpdateAndGetUser = async (currentUser, userId, newData) => {
     }
   }
 
+  this.validateChangeRolePermission(currentUser, role, userFound);
   if (!hasChanges) throw new InvalidDataError("Nothing to be changed");
 
-  if (role && role !== userFound.role && !userHelper.isAdm(currentUser))
-    throw new UnauthorizedError("Cannot change 'role'");
-
-  if (email !== userFound.email) await this.validateIfEmailExists(email);
+  if (email !== userFound.email)
+    await this.validateIfEmailIsAlreadyRegistered(email);
 
   return userFound;
 };
 
 exports.validatePasswordUpdate = async (currentUser, userId, data) => {
-  this.validatePermission(currentUser, userId);
-
   const { password, newPassword } = data;
+  const isCurrentUser = userHelper.isCurrentUser(currentUser, userId);
 
-  if (password === newPassword)
-    throw new ValidationError("New password is equal to the old one");
+  if (isCurrentUser) {
+    if (password === newPassword)
+      throw new ValidationError("New password is equal to the old one");
+    this.validate({ password }, ["password"]);
+  }
 
-  this.validate({ password }, ["password"]);
   this.validate({ password: newPassword }, ["password"]);
 
   const userFound = await this.validateUserIdAndGetUser(userId, ["password"]);
 
-  if (!(await userHelper.verifyPassword(userFound.password, password)))
+  if (
+    isCurrentUser &&
+    !(await userHelper.verifyPassword(userFound.password, password))
+  )
     throw new AuthenticationError("Wrong password");
+
+  if (await userHelper.verifyPassword(userFound.password, newPassword))
+    throw new ValidationError("New password is equal to the old one");
 };
 
 exports.validatePermission = (currentUser, userId) => {
-  if (currentUser.id !== userId && !userHelper.isAdm(currentUser))
+  if (
+    !userHelper.isCurrentUser(currentUser, userId) &&
+    !userHelper.isAdm(currentUser)
+  )
     throw new UnauthorizedError("Permission denied");
+};
+
+exports.validateChangeRolePermission = (currentUser, role, userFound) => {
+  if (role && role !== userFound.role && !userHelper.isAdm(currentUser))
+    throw new UnauthorizedError("Cannot change 'role'");
 };
