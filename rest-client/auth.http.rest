@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:5000/auth
 @contentType = application/json
-@email = "1geomar.bastiani@gmail.com"
+@email = "xgeomar.bastiani@gmail.com"
 @password = "geo12345"
 @name = "Geomar Tomás Cadore Bastiani"
 

@@ -55,7 +55,7 @@ class UnauthorizedError extends HttpError {
 }
 
 class InvalidCredentialsError extends HttpError {
-  constructor(message) {
+  constructor() {
     super(401, "Unauthorized", "Invalid credentials");
   }
 }

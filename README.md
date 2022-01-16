@@ -1,23 +1,54 @@
 # Backend example
 
-This project was created for teaching purposes. It will be implemented from zero, step by step. The steps are stored in the branches.
+## About
 
-## Step 1 - Create structure
+The idea behind it come out when I felt the need of providing my JavaScript students, at [Wild Code School in Lisbon campus](https://www.wildcodeschool.com/en-GB/campuses/lisbon), with more concise and complete code of an API example. As closest as possible of real project that will find when working after our training course.
 
-### branch: [step-01-structure](https://github.com/geomarb/backend-example/tree/step-01-structure)
+### Contacts
 
-- creating the basic folder structure and files via terminal/console
+Please, feel free to contact me on this project was created by Geomar Bastiani ([LinkedIn](http://linkedin.com/in/geomarb), [Twitter](http://twitter.com/geomarb), ) . The development was started in December of 2021. It implements a Node.JS REST API with express.
 
-### Flow of a HTTP Request / Response
+### Goals
 
-- REQUEST: client > app > middlewares > routes > controllers > services > models
-- RESPONSE (success): models > services > controller > client
-- RESPONSE (with error): models > services > controller > error-handling-middleware > client
+#### Show how to
 
-### Project Structure Tree
+- structure a project (folders and files)
+- apply best practices
+- DRY: Don't Repeat Yourself
+
+the folders and the code files, Authentication, Authorization, Middleware, etc. We have here 2 layers: Services and Controllers that is not really needed, for a project with this size and complexity we could call the Models strait from the Routes.
+
+## Description
+
+This Project is a basic, but almost complete User Management REST API with: Authentication, Registration, Session Management, Admin and User roles.
+
+### Roles
+
+- **User**: can register himself, see, change, and delete his own profile, but cannot set himself with admin role
+- **Admin**: can see all registered users and admins, add, delete and change any other users and set them as admin
+
+## Flow of the HTTP Requests and Responses
+
+- REQUEST: `client > app > middlewares > routes > controllers > services > models`
+- RESPONSE (`success`): `models > services > controller > client`
+- RESPONSE (`error`): `models > services > controller > error-handling-middleware > client`
+
+Note: The helpers and the validators are used in the `controllers` and the `services` layers
+
+## How to install this project
+
+- Clone this repository and use `npm install` to install all the dependencies
+- Create the `.env` file in the root folder
+- Add the variables: `HOST, PORT, DB_PORT, DB_NAME, DB_HOST, DB_USER, DB_PASSWORD, JWT_PRIVATE_KEY` in the `.env` file
+- Make sure you have Mysql installed, up an running
+- Run the `create-db.sql` scripts in your database
+- Execute the command `npm run dev`
+
+## Project Structure Tree
 
 ```console
- / (root of the project)
+
+/ (root of the project)
 |
 +-- src/
 |  |
@@ -27,41 +58,68 @@ This project was created for teaching purposes. It will be implemented from zero
 |  |
 |  +-- controllers/
 |  |  |
+|  |  +-- index.js
+|  |  |
 |  |  +-- auth.controller.js
 |  |  |
 |  |  +-- user.controller.js
+|  |
+|  +-- helpers/
+|  |  |
+|  |  +-- index.js
+|  |  |
+|  |  +-- auth.helper.js
+|  |  |
+|  |  +-- user.helper.js
 |  |
 |  +-- middlewares/
 |  |  |
 |  |  +-- auth.middleware.js
 |  |  |
-|  |  +-- error-handler.middleware.js
+|  |  +-- error-handling.middleware.js
+|  |  |
+|  |  +-- index.js
+|  |  |
+|  |  +-- protect.middleware.js
 |  |
 |  +-- models/
+|  |  |
+|  |  +-- index.js
 |  |  |
 |  |  +-- user.model.js
 |  |
 |  +-- routes/
 |  |  |
+|  |  +-- auth.router.js
+|  |  |
 |  |  +-- index.js
 |  |  |
-|  |  +-- auth.routes.js
-|  |  |
-|  |  +-- user.routes.js
+|  |  +-- user.router.js
 |  |
 |  +-- services/
 |  |  |
-|  |  +-- index.js
-|  |  |
 |  |  +-- auth.service.js
+|  |  |
+|  |  +-- index.js
 |  |  |
 |  |  +-- user.service.js
 |  |
+|  +-- validators/
+|  |  |
+|  |  +-- auth.validator.js
+|  |  |
+|  |  +-- index.js
+|  |  |
+|  |  +-- user.validator.js
+|  |
 |  +-- app.js
+|  |
+|  +-- error-types.js
 |  |
 |  +-- index.js
 |
 +-- .env
+
 ```
 
 ### Project Structure Tree creation via console/terminal

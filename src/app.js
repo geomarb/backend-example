@@ -15,7 +15,7 @@ app.use(express.json());
 // use cors: a third-party middleware
 // it adds "Access-Control-Allow-Origin: *" in the header of each response
 // in production you MUST specify the origin instead of using "*"
-app.use(cors());
+app.use(cors({ credentials: true, origin: process.env.ORIGINS.split(",") }));
 
 // use cookie-parser: a third-party middleware
 // it adds a "cookies" property in the request (req)

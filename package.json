@@ -11,6 +11,7 @@
     "mysql2": "^2.3.3"
   },
   "scripts": {
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
   "devDependencies": {

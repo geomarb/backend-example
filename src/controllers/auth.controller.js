@@ -1,6 +1,11 @@
 const { authService } = require("../services");
 
-const cookiesOptions = { httpOnly: true };
+const cookiesOptions = {
+  httpOnly: true,
+  maxAge: 4 * 60 * 60 * 1000,
+  secure: true,
+  sameSite: "none",
+};
 
 exports.register = async (req, res) => {
   const { token, ...user } = await authService.register(req.body);
@@ -15,4 +20,4 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = async (_req, res) =>
-  res.clearCookie("login").json({ message: "logout" });
+  res.clearCookie("login", cookiesOptions).json({ action: "logout" });
